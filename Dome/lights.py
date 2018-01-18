@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 # **********************************************************
-# Small logic display driver for R2D2 using 1.8" TFT
+# Lights driver for R2D2 
+# using:
+# 2 x 1.8" tft for small logic displays
+# 1 x white led for big logic display
+# 2 x Neopixel jewel (7 leds) for PSIs
+# 4 x leds for frontal holoprojector
 # **********************************************************
 # Copyright 2018 Mascal
-version="0.1a"
+version="0.1a" # Early draft script
 # **********************************************************
 
 import os, glob, subprocess, time, string, sys, datetime, serial
