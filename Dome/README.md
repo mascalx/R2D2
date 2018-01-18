@@ -1,4 +1,4 @@
-#Dome
+# Dome
 
 Dome scripts. One RPi Zero drives all the lights in the dome. Commands will be received by serial from main RPi (model 3?).
 
