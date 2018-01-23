@@ -65,12 +65,17 @@ def PutLed(draw,px,py,color):
     
 # Main program
 if __name__ == '__main__':
-    # Setup the display    
-    disp = GLCD.TFT()		# Create TFT LCD display class.
-    disp.initialize()		# Initialize display.
-    disp.clear()
+    # Setup the display s   
+    disp1 = GLCD.TFT(CS=24)	# Create TFT LCD display class.
+    disp1.initialize()		# Initialize display.
+    disp1.clear()
     
-    draw=Image.open("img/smalllogic.png") # Load the main led screen
+    disp2 = GLCD.TFT(CS=5)	# Create TFT LCD display class.
+    disp2.initialize()		# Initialize display.
+    disp2.clear()
+    
+    draw1=Image.open("img/smalllogic.png") # Load the main led screen
+    draw2=Image.open("img/smalllogic.png") # Load the main led screen
     
     t=False
     while True:
@@ -79,42 +84,55 @@ if __name__ == '__main__':
                 x=randint(0,8) # For every led choose a random one (x)
                 y=randint(0,4) # For every led choose a random one (y)
                 if (randint(0,1)==0): # Select random color between Cyan and White
-                    PutLed(draw,x,y,"c")
+                    PutLed(draw1,x,y,"c")
                 else:
-                    PutLed(draw,x,y,"w")
+                    PutLed(draw1,x,y,"w")
+                x=randint(0,8) # For every led choose a random one (x)
+                y=randint(0,4) # For every led choose a random one (y)
+                if (randint(0,1)==0): # Select random color between Cyan and White
+                    PutLed(draw2,x,y,"c")
+                else:
+                    PutLed(draw2,x,y,"w")
         if (MODE==MULTI):
             for i in range (0,randint(0,20)): # Change a random number of leds (from 0 to 20)
                 x=randint(0,8) # For every led choose a random one (x)
                 y=randint(0,4) # For every led choose a random one (y)
-                PutLed(draw,x,y,Colors[randint(0,6)]) # Put a random color for current led
+                PutLed(draw1,x,y,Colors[randint(0,6)]) # Put a random color for current led
+                x=randint(0,8) # For every led choose a random one (x)
+                y=randint(0,4) # For every led choose a random one (y)
+                PutLed(draw2,x,y,Colors[randint(0,6)]) # Put a random color for current led
         if (MODE==ERROR):
             if (t==True): # Every odd cycle turn red the four corners (so they blink)
-                PutLed(draw,0,0,'r')
-                PutLed(draw,0,4,'r')
-                PutLed(draw,8,0,'r')
-                PutLed(draw,8,4,'r')
+                PutLed(draw1,0,0,'r')
+                PutLed(draw1,0,4,'r')
+                PutLed(draw1,8,0,'r')
+                PutLed(draw1,8,4,'r')
             else:    
-                PutLed(draw,0,0,'off')
-                PutLed(draw,0,4,'off')
-                PutLed(draw,8,0,'off')
-                PutLed(draw,8,4,'off')
+                PutLed(draw1,0,0,'off')
+                PutLed(draw1,0,4,'off')
+                PutLed(draw1,8,0,'off')
+                PutLed(draw1,8,4,'off')
         if (MODE==IMAGE):
             pass
         
-        disp.display(draw) # Display the led screen
+        disp1.display(draw1) # Display the led screen
+        disp2.display(draw2) # Display the led screen
         
         t=not(t) # To detect odd/even cycles
 
         rcv = port.read() # Waits a char for 0.1 seconds
         if (rcv!=''): # Something arrived from serial. Lowest 2 bits : requested mode
-            draw=Image.open("img/smalllogic.png") # Resets the led panel
+            draw1=Image.open("img/smalllogic.png") # Resets the led panel
+            draw2=Image.open("img/smalllogic.png") # Resets the led panel
             if ((rcv & 3)==0): # Normal mode requested. 2 colors leds
                 MODE=NORMAL
             if ((rcv & 3)==1): # Multicolor mode requested. 7 colors leds
                 MODE=MULTI
             if ((rcv & 3)==2): # Error mode requested. Error number in highest 6 bits (max 64 errors)
                 MODE=ERROR
-                draw=Image.open("img/ERR%03d.png" % (rcv >> 2)) # Loads the error to be shown
+                draw1=Image.open("img/ERRA%03d.png" % (rcv >> 2)) # Loads the error to be shown
+                draw2=Image.open("img/ERRB%03d.png" % (rcv >> 2)) # Loads the error to be shown
             if ((rcv & 3)==3): # Image mode requested. Image number in highest 6 bits (max 64 images)
                 MODE=IMAGE
-                draw=Image.open("img/IMG%03d.png" % (rcv >> 2)) # Loads the image to be shown
+                draw1=Image.open("img/IMGA%03d.png" % (rcv >> 2)) # Loads the image to be shown
+                draw2=Image.open("img/IMGB%03d.png" % (rcv >> 2)) # Loads the image to be shown
