@@ -159,7 +159,7 @@ def image_to_data(image):
 			yield color & 0xFF
 
 
-class TFT(object):
+class TFT(object,CS=TFT_CS):
 	"""FW Driver for an ST7735S TFT controller."""
 
 	def __init__(self):
@@ -172,7 +172,7 @@ class TFT(object):
 		"""
 		self.dc = DC
 		self.rst = RST
-		self.cs = TFT_CS
+		self.cs = CS
 		self.width = TFT_WIDTH
 		self.height = TFT_HEIGHT
 		
