@@ -12,6 +12,19 @@
 version="0.1a" # Early draft script
 # **********************************************************
 
+#TFT to RPi connections
+# PIN   TFT         RPi
+# 1     backlight   (GPIO 26)
+# 2     MISO        <none>
+# 3     CLK         (GPIO 11)
+# 4     MOSI        (GPIO 10)
+# 5     CS-TFT      (GPIO 5)
+# 6     CS-CARD     (primary -> GPIO 24, secondary -> GPIO 5)
+# 7     D/C         (GPIO 22)
+# 8     RESET       (GPIO 16)
+# 9     VCC         3V3
+# 10    GND         GND
+
 import os, glob, subprocess, time, string, sys, datetime, serial
 from random import randint
 # Import for graphic display
