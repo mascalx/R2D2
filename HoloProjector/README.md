@@ -6,6 +6,10 @@ For the servos you should find the limits and change them at the beginnng of HOL
 
 First test drives the hp without a class. Second test uses the class and the code it's a bit cleaner.
 
-Only requirement is the gpiozero library.
+You can see some video of a test here:
+https://youtu.be/bjU9V6c27Ko
+https://youtu.be/rCtzolWliGY
+
+Only requirement is the gpiozero library. The png image is the circuit schematic.
 
 REMEMBER this is just a draft code. Please use at your own risk!
