@@ -95,5 +95,5 @@ class HoloProjector(object):
         if not(self.led_b is None): 
             while ((time.time()-t1)<duration):
                 self.led_b.toggle()    
-                time.sleep(random.random()/200.0) # Waits a random value between 0 and 0.1 seconds
+                time.sleep(random.random()/200.0) # Waits a random value between 0 and 0.05 seconds
         self.Off()
