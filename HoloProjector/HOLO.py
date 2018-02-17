@@ -18,10 +18,10 @@ MINV = -1.0
 # - White LEDS pin (LW default GPIO 22)
 # - Blue LED pin (LB default GPIO 23)
 # if one parameter is set to None it will not be created the correspondent output device
-class HoloProjector(object,SH=17,SV=18,LW=22,BL=23):
+class HoloProjector(object):
 
     # Creates the new object
-    def __init__(self):
+    def __init__(self,SH=17,SV=18,LW=22,LB=23):
         if not(SH is None): 
             self.servo_h = Servo(SH) # Servo for horizontal motion
         else:
