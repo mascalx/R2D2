@@ -27,12 +27,8 @@ servo_v.value=None # Disconnect vertical servo
 led_w.on() # Turn on white leds
 t1 = time.time()
 while ((time.time()-t1)<10): # 10 seconds cycle
-    if (random.randint(0, 1)==0):
-        led_b.off() # Turn off the blue led
-    else:
-        led_b.on() # Turn on the blue led
-    #led_b.toggle()    
-    #time.sleep(random.random()/10.0) # Waits a random value between 0 and 0.1 seconds
+    led_b.toggle()    
+    time.sleep(random.random()/200.0) # Waits a random value between 0 and 0.005 seconds
     
 # Turns off all the leds    
 led_b.off()
