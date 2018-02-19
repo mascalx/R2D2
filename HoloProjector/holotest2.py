@@ -3,7 +3,7 @@
 
 import HOLO,time
 
-holo1=HOLO.HoloProjector(SH=17,SV=18,LW=22,BL=23) # Creates the object
+holo1=HOLO.HoloProjector(SH=17,SV=18,LW=22,LB=23) # Creates the object
 
 holo1.Off() # Turns off all the LEDs
 
