@@ -1,12 +1,5 @@
 #!/usr/bin/python
 
-
-__author__ = "D.Qendri"
-__copyright__ = "Copyright 2015 Sensorian"
-__license__ = "GPL V3"
-__version__ = "1.0"
-
-
 import numbers
 import time
 import Image
@@ -159,10 +152,10 @@ def image_to_data(image):
 			yield color & 0xFF
 
 
-class TFT(object,CS=TFT_CS):
+class TFT(object):
 	"""FW Driver for an ST7735S TFT controller."""
 
-	def __init__(self):
+	def __init__(self,CS=TFT_CS):
 		"""
 		Creates a TFT object and configures SPI bus and pins.
 		
