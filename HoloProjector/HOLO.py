@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from gpiozero import LED, Servo
-import time, random
+import time, random, threading
 
 # Holographic Projector class
 
@@ -38,6 +38,12 @@ class HoloProjector(object):
             self.led_b = LED(LB) # Blue led
         else:
             self.led_b = None # No instance for the LED        
+            
+        # Now let's start the simulation thread
+        self.startprojection=False # Be sure to not start a simulation
+        thread = threading.Thread(target=self._ProjectionB, args=())
+        thread.daemon = True 
+        thread.start()              
         
     # Turns off all the LEDs    
     def Off(self):
@@ -71,6 +77,8 @@ class HoloProjector(object):
         
     # Sets vertical position (-1..+1). If free is True, then this servo will be disconnected (1 second wait). If False (default) than it will be kept locked into position.
     def Vertical(self,position,free=False):
+        if (position<-1): position=-1
+        if (position>1): position=1
         realpos = (((position - MINV) * (MAXV - MINV)) / 2) + MINV # Calculates position considering the servo limits
         if not(self.servo_v is None): 
             self.servo_v.value=realpos
@@ -80,6 +88,8 @@ class HoloProjector(object):
         
     # Sets horizontal position (-1..+1). If free is True, then this servo will be disconnected (1 second wait). If False (default) than it will be kept locked into position.
     def Horizontal(self,position,free=False):
+        if (position<-1): position=-1
+        if (position>1): position=1
         realpos = (((position - MINH) * (MAXH - MINH)) / 2) + MINH # Calculates position considering the servo limits
         if not(self.servo_h is None): 
             self.servo_h.value=realpos
@@ -97,3 +107,23 @@ class HoloProjector(object):
                 self.led_b.toggle()    
                 time.sleep(random.random()/200.0) # Waits a random value between 0 and 0.05 seconds
         self.Off()
+
+    # Simulates holographic projection for a specific amount of time (default 10 seconds)
+    def StartProjection(self,duration=10):
+        if (self.startprojection==False): # Starts the simulation only if not already in progress
+            self.duration=duration # Set the duration of the simulation
+            self.startprojection=True # Request the start of the simulation
+    
+    # Thread for simulation in background. Never call it directly, but use the above StartProjection() instead
+    # NOTE: this is a test non-blocking function. Use at your own risk!!!
+    def _ProjectionB(self):
+        while True: # Loop forever
+            if (self.startprojection==True): # Parameters becom True when asked for starting from elsewhere
+                self.White() # Turns on white LEDs
+                t1 = time.time()
+                if not(self.led_b is None): 
+                    while ((time.time()-t1)<self.duration): # Duratino is set elsewhere
+                        self.led_b.toggle()    
+                        time.sleep(random.random()/200.0) # Waits a random value between 0 and 0.1 seconds
+                self.Off()
+                self.startprojection=False # When simulation is finished then reset the request
